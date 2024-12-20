@@ -22,8 +22,8 @@ This project is complete a candidate search application that calls the GitHub AP
 - [License](#license)
 
 ## Introduction
-```md
-GIVEN a candidate search application
+
+![GIVEN a candidate search application](./Assets/13-01-candidate_search_homepage.png)
 WHEN the candidate search page loads
 THEN the information for one candidate should be displayed, including the candidate's name, username, location, avatar, email, html_url, and company
 WHEN I click the "+" button
@@ -32,7 +32,7 @@ WHEN I click the "-" button
 THEN the next candidate's information should be displayed without saving the current candidate
 WHEN there are no candidates available to review
 THEN an appropriate message should be shown indicating no more candidates are available
-WHEN the potential candidates page loads
+![WHEN the potential candidates page loads](./Assets/13-02-candidate_search_potential_candidates.png)
 THEN the user should see a list of previously saved potential candidates with their name, username, location, avatar, email, html_url, and company
 WHEN the page reloads
 THEN the list of potential candidates should persist and be available for viewing
@@ -40,7 +40,7 @@ WHEN there are no potential candidates
 THEN an appropriate message should be displayed indicating no candidates have been accepted
 WHEN I click the "-" button
 THEN the next candidate's information should be displayed without saving the current candidate
-```
+
 
 ## Technology
 
