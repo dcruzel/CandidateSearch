@@ -22,6 +22,10 @@ const CandidateSearch = () => {
     bio: null
   });
 
+  useEffect(() => {
+    console.log('current candidate ', currentCandidate);
+  }, [currentCandidate])
+
   //setup Current Index
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -85,7 +89,9 @@ const CandidateSearch = () => {
     }
 
   }
+
   //Return Candidate Search Section of Page
+
   return <>
     <h1>CandidateSearch</h1>
 
@@ -94,10 +100,12 @@ const CandidateSearch = () => {
 
       <div className="card-body">
           <h2>{currentCandidate.username}</h2>
-          <h4>Location: {currentCandidate.location ? currentCandidate.location : "Not provided"}</h4>
-          <h4>Email: {currentCandidate.email ? currentCandidate.email : "Not provided"}</h4>
-          <h4>Company: {currentCandidate.company ? currentCandidate.company : "Not provided"}</h4>
-          <h4>Bio: {currentCandidate.bio ? currentCandidate.bio : "Not provided"}</h4>
+
+          {currentCandidate.location && <h4>Location: {currentCandidate.location}</h4>}
+          {currentCandidate.email && <h4>Email: {currentCandidate.email}</h4>}
+          {currentCandidate.company && <h4>Company: {currentCandidate.company}</h4>}
+          {currentCandidate.bio && <h4>Bio: {currentCandidate.bio}</h4>}
+
       </div>
 
     </section>
