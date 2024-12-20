@@ -12,23 +12,26 @@ const SavedCandidates = () => {
   useEffect(() => {
   const currentSavedCandidates = JSON.parse(localStorage.getItem("saved") || "[]");
 
-    setSavedCandidates(currentSavedCandidates);
+  setSavedCandidates(currentSavedCandidates);
 
 }, [])
 
 //Delete from the saved Candidates List
 function deleteCandidate (username: string) {
   try{
-    localStorage.removeItem(username);
-
+    const candidateList = JSON.parse(localStorage.getItem("saved") || "[]");
+    const removeCandidateList=candidateList.filter(
+      (candidate:Candidate) => candidate.username !== username
+    );
+    localStorage.setItem("saved", JSON.stringify(removeCandidateList));
+    setSavedCandidates(removeCandidateList);
     console.log("Deleted!")
-
   } catch (error){
     console.error("Error to delete candidate:", error)
   }
 
 }
-
+  //Print Saved Candidate List
   return (
     <>
       <h1>Potential Candidates</h1>
