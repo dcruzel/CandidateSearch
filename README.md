@@ -53,7 +53,7 @@ THEN the next candidate's information should be displayed without saving the cur
 
 ## Usage
 - [Github Repo](https://github.com/dcruzel/CandidateSearch)
-- [Deployed Website](https://candidatesearch-5d1y.onrender.com/)
+- [Deployed Website](https://candidatesearch-3p5s.onrender.com/)
 
 
 ## Contact
