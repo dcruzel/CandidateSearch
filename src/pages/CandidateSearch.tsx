@@ -1,37 +1,46 @@
+//import useState and useEffect from React
 import { useState, useEffect } from 'react';
+
+//import API Github
 import { searchGithub, searchGithubUser } from '../api/API';
+
+//import Candidate interface
 import { Candidate } from '../interfaces/Candidate.interface';
 
+//Search for Candidate
 const CandidateSearch = () => {
 
+  //setup Usernames
   const [githubUsernames, setGithubUsernames] = useState<string[]>([]);
-
-  const [currentUser, setCurrentUser] = useState<Candidate>({
+  //setup Current Candidates
+  const [currentCandidate, setCurrentCandidate] = useState<Candidate>({
     image: null,
     username: "",
     location: null,
     email: null,
     company: null,
     bio: null
-  })
+  });
 
-  const [currentIndex, setCurrentIndex] = useState<number>(0)
+  //setup Current Index
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
+  //Initial User List Fetch with [] dependency
   useEffect(() => {
     async function getUserList() {
       const response = await searchGithub();
-      const usernames = response.map((user: any) => user.login)
-      setGithubUsernames(usernames)
+      const usernames = response.map((user: any) => user.login);
+      setGithubUsernames(usernames);
     }
     getUserList();
-  }, [])
+  }, []);
 
-
+  //Get the Current Candidate with any changes with githubUsernames and currentIndex
   useEffect(() => {
 
     async function getSpecificUser() {
         const targetUser: string = githubUsernames[currentIndex];
-        const response = await searchGithubUser(targetUser)
+        const response = await searchGithubUser(targetUser);
         const userData = {
           image: response.avatar_url,
           username: response.login,
@@ -39,64 +48,66 @@ const CandidateSearch = () => {
           email: response.email,
           company: response.company,
           bio: response.bio
-        }
+        };
 
-        console.log(userData)
+        console.log(userData);
 
-        setCurrentUser(userData);
+        setCurrentCandidate(userData);
 
     }
 
-    getSpecificUser()
+    getSpecificUser();
 
-  }, [githubUsernames, currentIndex])
+  }, [githubUsernames, currentIndex]);
 
+  //Move to the next Candidate
   function nextCandidate() {
-    setCurrentIndex(currentIndex+1)
+    setCurrentIndex(currentIndex+1);
 
-    console.log(githubUsernames[currentIndex])
+    console.log(githubUsernames[currentIndex]);
   }
 
-
+  //Save Candidate from the Saved Candidate List
   function saveCandidate () {
-    console.log(currentUser)
+    try{
+      console.log(currentCandidate);
 
-    const currentSavedCandidates = JSON.parse(localStorage.getItem("saved")) || [];
+      const currentSavedCandidates = JSON.parse(localStorage.getItem("saved") || "[]");
+      currentSavedCandidates.push(currentCandidate);
 
-    currentSavedCandidates.push(currentUser);
+      localStorage.setItem("saved", JSON.stringify(currentSavedCandidates));
 
-    localStorage.setItem("saved", JSON.stringify(currentSavedCandidates));
+      console.log("Saved!");
 
-    console.log("Saved!")
-
-    nextCandidate();
+      nextCandidate();
+    } catch (error){
+      console.error("Error to save candidate:", error);
+    }
 
   }
-
+  //Return Candidate Search Section of Page
   return <>
     <h1>CandidateSearch</h1>
 
     <section className="card">
-      <img src={currentUser.image}></img>
+      <img src={currentCandidate.image ? currentCandidate.image : "Not provided"}></img>
 
       <div className="card-body">
-          <h2>{currentUser.username}</h2>
-
-          <h4>Location: {currentUser.location ? currentUser.location : "Not provided"}</h4>
-          <h4>Email</h4>
-          <h4>Company</h4>
-          <h4>Bio</h4>
+          <h2>{currentCandidate.username}</h2>
+          <h4>Location: {currentCandidate.location ? currentCandidate.location : "Not provided"}</h4>
+          <h4>Email: {currentCandidate.email ? currentCandidate.email : "Not provided"}</h4>
+          <h4>Company: {currentCandidate.company ? currentCandidate.company : "Not provided"}</h4>
+          <h4>Bio: {currentCandidate.bio ? currentCandidate.bio : "Not provided"}</h4>
       </div>
 
     </section>
 
     <section>
-      <button
-        onClick={nextCandidate}
-      >Minus</button>
-      <button
-        onClick={saveCandidate}
-      >Plus</button>
+      <button id='circle-red'
+        onClick={nextCandidate}>-</button>
+      <button id = 'rectangle'></button>
+      <button id='circle-green'
+        onClick={saveCandidate}>+</button>
     </section>
 
   </>
